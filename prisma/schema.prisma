@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model CurrentWeather {
+  id      String @id @default(uuid())
+  city    String
+  lat     Float
+  lon     Float
+  dt      Int
+  temp    Float
+  feels   Float
+  sunrise Int
+  sunset  Int
+}
