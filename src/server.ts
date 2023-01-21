@@ -14,7 +14,7 @@ app.use(cors())
 app.get('/clima/:LonId/:LatId', async(req,res) => {
     const lon = req.params.LonId
     const lat = req.params.LatId
-    const clima = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=3b3836b920c3f264109f5219ca6a5591&units=metric`)
+    const clima = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=api_token&units=metric`)
 
     return res.json(clima.data)
 })
@@ -23,7 +23,7 @@ app.get('/clima/:LonId/:LatId', async(req,res) => {
 app.get('/weather/:id', async(req,res) => {
     const city = req.params.id
 
-    const clima = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=3b3836b920c3f264109f5219ca6a5591&units=metric`)
+    const clima = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=api_token&units=metric`)
     
     return res.json(clima.data)
 })
@@ -32,7 +32,7 @@ app.get('/weather/:id', async(req,res) => {
 app.post('/save/:id', async(req,res) => {
     const city = req.params.id
 
-    const dados = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=3b3836b920c3f264109f5219ca6a5591&units=metric`)
+    const dados = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=api_token&units=metric`)
     
     const save = await prisma.CurrentWeather.create({
         data: { 
