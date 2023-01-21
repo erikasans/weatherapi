@@ -31,26 +31,23 @@ app.get('/weather/:id', async(req,res) => {
 //favorita localização(por nome)
 app.post('/save/:id', async(req,res) => {
     const city = req.params.id
-    const body = req.body
 
-   await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=3b3836b920c3f264109f5219ca6a5591&units=metric`)
-
-    const salvar = await prisma.CurrentWeather.create({
+    const dados = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=3b3836b920c3f264109f5219ca6a5591&units=metric`)
+    
+    const save = await prisma.CurrentWeather.create({
         data: { 
-            city: body.city,
-            lat: body.lat,
-            lon: body.lon,
-            dt: body.dt,
-            temp: body.temp,
-            feels : body.feels_like,
-            sunrise : body.sunrise,
-            sunset : body.sunset,
+            city: dados.data.name,
+            lat: dados.data.lat,
+            lon: dados.data.lon,
+            dt: dados.data.dt,
+            temp: dados.data.temp,
+            feels : dados.data.feels_like,
+            sunrise : dados.data.sunrise,
+            sunset : dados.data.sunset,
         }
     })
 
-    await axios.post(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=3b3836b920c3f264109f5219ca6a5591&units=metric`, salvar)
-
-    return res.status(201).json(salvar);
+    return res.json(save.data);
 
 })
 
