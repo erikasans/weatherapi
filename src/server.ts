@@ -33,21 +33,24 @@ app.post('/save/:id', async(req,res) => {
     const city = req.params.id
 
     const dados = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=3b3836b920c3f264109f5219ca6a5591&units=metric`)
+    console.log(dados)
     
     const save = await prisma.CurrentWeather.create({
         data: { 
+
             city: dados.data.name,
-            lat: dados.data.lat,
-            lon: dados.data.lon,
+            lat: dados.data.coord.lat,
+            lon: dados.data.coord.lon,
             dt: dados.data.dt,
-            temp: dados.data.temp,
-            feels : dados.data.feels_like,
-            sunrise : dados.data.sunrise,
-            sunset : dados.data.sunset,
+            temp: dados.data.main.temp,
+            feels : dados.data.main.feels_like,
+            sunrise : dados.data.sys.sunrise,
+            sunset : dados.data.sys.sunset,
         }
     })
 
-    return res.json(save.data);
+
+    return res.json(save);
 
 })
 
