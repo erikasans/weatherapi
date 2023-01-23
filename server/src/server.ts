@@ -7,7 +7,7 @@ const prisma = new PrismaClient({
     log:['query']
 })
 
-const api_token = '3b3836b920c3f264109f5219ca6a5591'
+const api_token = ' '
 const app = express();
 app.use(cors())
 
