@@ -2,12 +2,14 @@ import express from 'express'
 import { PrismaClient } from '@prisma/client/';
 import cors  from 'cors';
 import axios from 'axios'
+import dotenv from "dotenv"
+dotenv.config()
 
 const prisma = new PrismaClient({
     log:['query']
 })
 
-const api_token = ' '
+const api_token = process.env.TOKEN
 const app = express();
 app.use(cors())
 
@@ -35,7 +37,7 @@ app.post('/save/:id', async(req,res) => {
 
     const dados = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${api_token}&units=metric&lang=pt_br`)
     
-    const save = await prisma.CurrentWeather.create({
+    const save = await prisma.currentWeather.create({
         data: { 
 
             city: dados.data.name,
@@ -58,9 +60,9 @@ app.post('/save/:id', async(req,res) => {
 
 // Teste
 app.get('/', async (req,res) => {
-    const weather = await prisma.CurrentWeather.findMany({
+    const weather = await prisma.currentWeather.findMany({
         where: {
-            city: 'New_York'
+            city: 'Fortaleza'
         }
     })
     
@@ -71,4 +73,5 @@ app.get('/', async (req,res) => {
 app.listen(3333, () => {
     console.log("Running")
 })
+
 
